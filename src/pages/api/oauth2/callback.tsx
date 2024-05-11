@@ -1,4 +1,5 @@
 import axios from "axios";
+import cookie from "cookie";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 
@@ -24,8 +25,23 @@ export default async function handler(
       },
     });
 
-    // TODO: handling the response
-    // token, refresh_token, expiry, etc.
+    // Set HTTP-only cookies to avoid XSS attacks and not expose the token to the client side
+    res.setHeader("Set-Cookie", [
+      cookie.serialize("accessToken", data.access_token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV !== "development",
+        path: "/",
+        maxAge: 3600,
+      }),
+      cookie.serialize("refreshToken", data.refresh_token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV !== "development",
+        path: "/",
+        maxAge: 86400,
+      }),
+    ]);
+
+    res.redirect("/dashboard");
   } catch (error) {
     console.error("Error getting authorization:", error);
     res.status(500).json({ error: "Internal Server Error" });
