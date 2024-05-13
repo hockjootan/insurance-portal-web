@@ -10,19 +10,12 @@ export default async function handler(
   const { code } = req.query;
 
   try {
-    const { data } = await axios({
-      url: "https://oauth2.googleapis.com/token",
-      method: "post",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      params: {
-        client_id: process.env.GOOGLE_OAUTH2_CLIENT_ID,
-        client_secret: process.env.GOOGLE_OAUTH2_CLIENT_SECRET,
-        redirect_uri: `${process.env.API_URL}/api/oauth2/callback`,
-        grant_type: "authorization_code",
-        code,
-      },
+    const { data } = await axios.post("https://oauth2.googleapis.com/token", {
+      client_id: process.env.GOOGLE_OAUTH2_CLIENT_ID,
+      client_secret: process.env.GOOGLE_OAUTH2_CLIENT_SECRET,
+      redirect_uri: `${process.env.API_URL}/api/oauth2/callback`,
+      grant_type: "authorization_code",
+      code,
     });
 
     // Set HTTP-only cookies to avoid XSS attacks and not expose the token to the client side
@@ -44,6 +37,6 @@ export default async function handler(
     res.redirect("/dashboard");
   } catch (error) {
     console.error("Error getting authorization:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.redirect("/error");
   }
 }
