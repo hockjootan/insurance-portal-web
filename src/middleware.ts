@@ -60,7 +60,8 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
+     * - assets/images (images used in the app)
      */
-    "/((?!error|api|_next/static|_next/image|favicon.ico).*)",
+    "/((?!error|api|_next/static|_next/image|favicon.ico|assets/images).*)",
   ],
 };
