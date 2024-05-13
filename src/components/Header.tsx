@@ -1,17 +1,19 @@
 import axios from "axios";
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
 
 import { headerPages } from "src/config";
+import { clearProfile } from "src/store/profileSlice";
 
 const Header: React.FC = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
     axios
       .post("/api/logout")
       .then(() => {
-        console.log("successfully logged out");
-        // TODO: clear redux data when integrated
+        dispatch(clearProfile());
         router.push("/login");
       })
       .catch((error) => console.error(error));

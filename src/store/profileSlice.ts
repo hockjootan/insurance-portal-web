@@ -6,8 +6,8 @@ import type {
   ProfileDetailsApiResponse,
 } from "src/types/profile";
 
-export const fetchUserProfile = createAsyncThunk(
-  "userProfile/fetchUserProfile",
+export const fetchProfile = createAsyncThunk(
+  "profile/fetchProfile",
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get<ProfileDetailsApiResponse>(
@@ -36,23 +36,20 @@ export const profileSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchUserProfile.pending, (state) => {
+      .addCase(fetchProfile.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(
-        fetchUserProfile.fulfilled,
+        fetchProfile.fulfilled,
         (state, action: PayloadAction<ProfileState["profile"]>) => {
           state.profile = action.payload;
           state.isLoading = false;
         }
       )
-      .addCase(
-        fetchUserProfile.rejected,
-        (state, action: PayloadAction<any>) => {
-          state.error = action.payload;
-          state.isLoading = false;
-        }
-      );
+      .addCase(fetchProfile.rejected, (state, action: PayloadAction<any>) => {
+        state.error = action.payload;
+        state.isLoading = false;
+      });
   },
 });
 
