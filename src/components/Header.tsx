@@ -1,8 +1,22 @@
+import axios from "axios";
 import { useRouter } from "next/router";
+
 import { headerPages } from "src/config";
 
 const Header: React.FC = () => {
   const router = useRouter();
+
+  const handleLogout = () => {
+    axios
+      .post("/api/logout")
+      .then(() => {
+        console.log("successfully logged out");
+        // TODO: clear redux data when integrated
+        router.push("/login");
+      })
+      .catch((error) => console.error(error));
+  };
+
   return (
     <nav className="bg-sky-200 border-gray-200">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -28,7 +42,7 @@ const Header: React.FC = () => {
                 </a>
               </li>
             ))}
-            <li key="logout">
+            <li key="logout" onClick={() => handleLogout()}>
               <span className="cursor-pointer block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">
                 Logout
               </span>
