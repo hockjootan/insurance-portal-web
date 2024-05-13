@@ -30,5 +30,5 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
   const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&prompt=${prompt}&access_type=${accessType}&state=${state}&response_type=${responseType}&include_granted_scopes=true`;
 
-  res.redirect(googleAuthUrl);
+  res.redirect(302, googleAuthUrl);
 }
