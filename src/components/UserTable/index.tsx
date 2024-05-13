@@ -29,14 +29,21 @@ const UserTable: React.FC<UserTableProps> = ({ users }) => {
                   width={20}
                   height={20}
                   className="rounded-full"
-                  alt="username"
+                  alt={`${user.first_name} ${user.last_name}`}
+                  data-testid={`table-user-${user.id}-avatar`}
                 />
-                <span className="font-medium text-gray-900 whitespace-nowrap">
+                <span
+                  className="font-medium text-gray-900 whitespace-nowrap"
+                  data-testid={`table-user-${user.id}-name`}
+                >
                   {user.first_name} {user.last_name}
                 </span>
               </th>
-              <td className="px-6 py-4">
-                <MaskedEmail email={user.email} />
+              <td
+                className="px-6 py-4"
+                data-testid={`table-user-${user.id}-email`}
+              >
+                <MaskedEmail id={user.id} email={user.email} />
               </td>
             </tr>
           ))}
