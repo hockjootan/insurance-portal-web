@@ -8,7 +8,7 @@ const MaskedEmail: React.FC<{ email: string }> = ({ email }) => {
       <span>{show ? email : "***@***.**"}</span>
       {!show && (
         <div
-          className="cursor-pointer hover:text-blue-700"
+          className="cursor-pointer hover:text-blue-700 text-xs text-gray-500 font-medium"
           onClick={() => setShow(true)}
         >
           Show
