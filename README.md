@@ -53,6 +53,11 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 - Business logic is handled server-side to prevent exposure in the browser.
 - Utilizes Next.js for server-side rendering and API routes to manage sensitive operations securely.
 
+### Requirement
+
+Node version - v18.17.0 and above.
+Make sure switching the node version to v18.17.0 (use `nvm use`)
+
 ## Installation and setup
 
 1. Clone the repository:
