@@ -1,5 +1,9 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import UserTable from "./";
+import axios from "axios";
+
+jest.mock("axios");
+const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 const users = [
   {
@@ -7,14 +11,14 @@ const users = [
     avatar: "https://reqres.in/img/faces/1-image.jpg",
     first_name: "John",
     last_name: "Doe",
-    email: "john.doe@example.com",
+    email: "***@***.**",
   },
   {
     id: 2,
     avatar: "https://reqres.in/img/faces/2-image.jpg",
     first_name: "Jane",
     last_name: "Smith",
-    email: "jane.smith@example.com",
+    email: "***@***.**",
   },
 ];
 
@@ -53,15 +57,23 @@ describe("UserTable component", () => {
     });
   });
 
-  test("renders the email after user click Show button", () => {
+  test("renders the email after user click Show button", async () => {
     render(<UserTable users={users} />);
 
-    users.forEach((user) => {
+    for (const user of users) {
+      mockedAxios.get.mockResolvedValueOnce({
+        data: { email: `unmasked_${user.email}` },
+      });
+    }
+
+    for (const user of users) {
       const showButton = screen.getByTestId(`table-user-${user.id}-show`);
       fireEvent.click(showButton);
-      expect(
-        screen.getByTestId(`table-user-${user.id}-email`)
-      ).toHaveTextContent(user.email);
-    });
+      await waitFor(() => {
+        expect(
+          screen.getByTestId(`table-user-${user.id}-email`)
+        ).toHaveTextContent(`unmasked_${user.email}`);
+      });
+    }
   });
 });

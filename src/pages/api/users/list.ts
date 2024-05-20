@@ -8,7 +8,7 @@ export default async function handler(
 ) {
   try {
     const users = await fetchAllUsers();
-    const filteredUsers = filterUsers(users);
+    const filteredUsers = filterAndMaskUsers(users);
     res.status(200).json(filteredUsers);
   } catch (error) {
     res.status(500).json({ message: "Error fetching users" });
@@ -36,8 +36,14 @@ const fetchAllUsers = async (
   }
 };
 
-const filterUsers = (users: User[]): User[] => {
-  return users.filter(
-    (user) => user.first_name.startsWith("G") || user.last_name.startsWith("W")
-  );
+const filterAndMaskUsers = (users: User[]): User[] => {
+  return users
+    .filter(
+      (user) =>
+        user.first_name.startsWith("G") || user.last_name.startsWith("W")
+    )
+    .map((user) => ({
+      ...user,
+      email: "***@***.**",
+    }));
 };
