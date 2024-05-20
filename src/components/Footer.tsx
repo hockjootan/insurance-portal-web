@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { footerGroupLinks } from "src/config";
 
 const Footer: React.FC = () => {
@@ -6,11 +7,15 @@ const Footer: React.FC = () => {
       <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0">
-            <a href="localhost:3000" className="flex items-center">
+            <Link
+              href="/dashboard"
+              scroll={false}
+              className="flex items-center"
+            >
               <span className="self-center text-2xl font-semibold whitespace-nowrap">
                 Z
               </span>
-            </a>
+            </Link>
           </div>
           <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
             {footerGroupLinks.map((group) => (
@@ -21,9 +26,9 @@ const Footer: React.FC = () => {
                 <ul className="text-gray-500 font-medium">
                   {group.links.map((link) => (
                     <li key={link.title} className="mb-4">
-                      <a href={link.href} className="hover:underline">
+                      <Link href={link.href} className="hover:underline">
                         {link.title}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -38,9 +43,9 @@ const Footer: React.FC = () => {
         >
           <span className="text-sm text-gray-500 sm:text-center">
             © 2024{" "}
-            <a href="localhost:3000" className="hover:underline">
+            <Link href="/" className="hover:underline">
               Z™
-            </a>
+            </Link>
             . All Rights Reserved.
           </span>
         </div>

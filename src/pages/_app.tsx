@@ -16,7 +16,7 @@ export default function App({ Component, pageProps }: AppProps) {
     if (["/dashboard"].includes(router.pathname)) {
       dispatch(fetchProfile());
     }
-  }, [router.pathname]);
+  }, [router.pathname, dispatch]);
 
   return (
     <Provider store={store}>
